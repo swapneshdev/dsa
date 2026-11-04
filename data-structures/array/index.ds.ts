@@ -5,18 +5,19 @@
 
 type FindCallback<T> = (value: T, index: number) => boolean;
 type MapCallback<T> = (value: T, index: number) => T;
+// type SortCallback<T> = (value: T, index: number) => T;
 
 class CustomArray<T> {
   // [index: number]: T | undefined; // for proxy
 
   length = 0;
-  data: { [index: number]: T | undefined };
+  #data: Record<string, T | undefined> = {};
 
   constructor(data?: T[]) {
-    this.data = {};
+    this.#data = {};
     if (data && data.length > 0) {
       data.forEach((value, index) => {
-        this.data[index] = value;
+        this.#data[index] = value;
       });
       this.length = data.length;
     }
@@ -33,17 +34,17 @@ class CustomArray<T> {
   }
 
   get(index: number): T | undefined {
-    return this.data[index];
+    return this.#data[index];
   }
   pop(): T | undefined {
-    const deletedData = this.data[this.length - 1];
-    delete this.data[this.length - 1];
+    const deletedData = this.#data[this.length - 1];
+    delete this.#data[this.length - 1];
     this.length--;
     return deletedData;
   }
 
   push(data: T): void {
-    this.data[this.length] = data;
+    this.#data[this.length] = data;
     this.length++;
   }
   // find(condition: (value: T, index: number) => boolean): T | undefined {
@@ -63,6 +64,20 @@ class CustomArray<T> {
     return undefined;
   }
 
+  // sort(fn) {
+  //   const compare = fn ?? ((a: T, b: T) => a - b);
+
+  //   for (let i = 0; i < nums.length; i++) {
+  //     for (let j = 0; j < nums.length - i - 1; j++) {
+  //       if (compare(nums[j], nums[j + 1]) > 0) {
+  //         [nums[j], nums[j + 1]] = [nums[j + 1], nums[j]];
+  //       }
+  //     }
+  //   }
+
+  //   return nums;
+  // }
+
   includes(data: T): boolean {
     // works only for primitives else checks references
     return this.find((value) => value === data) !== undefined;
@@ -79,7 +94,7 @@ class CustomArray<T> {
         continue;
       }
 
-      newArr.data[index] = callback(element, index);
+      newArr.#data[index] = callback(element, index);
       newArr.length++;
     }
 
@@ -92,7 +107,7 @@ interface Arr {
   age: number;
   isValid: boolean;
 }
-const tArray = new Array(32).fill({
+const tArray = new Array(4).fill({
   name: "swapnesh",
   age: 34,
   isValid: true,
@@ -110,14 +125,14 @@ arr.push({
 
 // console.log(arr.find((i) => i.age == 74 ));
 
+// console.log(arr.map((element,index)=>(
+//   element ={
+//     ...element,
+//     age:element.age*index
+//   }
+// )))
 
-console.log(arr.map((element,index)=>(
-  element ={
-    ...element,
-    age:element.age*index
-  }
-)))
+// console.log(arr.sort());
 
 
-
-
+// console.log(arr.#data) // will not work as this is private and starts with # // it will fail the code
