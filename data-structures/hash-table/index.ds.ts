@@ -1,3 +1,4 @@
+// pnpm dev data-structures/hash-table/index.ds.ts
 import { CreateHash } from "./hash.js";
 
 // Object static methods
@@ -78,4 +79,4 @@ obj.set("swapnesh", {
 
 console.log(obj.get("swapnesh"));
 
-console.log(obj.getKeys())
+console.log(obj.getKeys());
