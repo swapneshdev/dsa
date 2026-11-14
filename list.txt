@@ -1,0 +1,7 @@
+Queue using linked list
+Circular queue and deque
+Priority queue and binary heap
+Binary tree and BST
+Trie
+Graphs: BFS, DFS, topological sort
+Union-Find / Disjoint Set
